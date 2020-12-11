@@ -55,10 +55,14 @@ def robot_thread_task(yolo, track, manipulator):
     
 
 if __name__ == "__main__":
-    yolo_weights = r'C:\Users\dimaz\Desktop\storage-automatisation-robot\src\yolo_files\yolov3.weights'
-    yolo_config = r'C:\Users\dimaz\Desktop\storage-automatisation-robot\src\yolo_files\yolov3.cfg'
+    # yolo_weights = r'C:\Users\dimaz\Desktop\storage-automatisation-robot\src\yolo_files\yolov3.weights'
+    # yolo_config = r'C:\Users\dimaz\Desktop\storage-automatisation-robot\src\yolo_files\yolov3.cfg'
+
+    yolo_weights = '/app/src/yolo_files/yolov3.weights'
+    yolo_config = '/app/src/yolo_files/yolov3.cfg'    
+    
     confidence_threshold = 0.5
-    webcam_number = 1
+    webcam_number = 0
     
     yolo = ObjectDetection(yolo_weights, yolo_config, webcam_number, confidence_threshold)
     track = HumanTrack(webcam_number)
