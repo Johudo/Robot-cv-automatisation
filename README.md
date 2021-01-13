@@ -7,7 +7,7 @@ docker run \
     --name robot_container \
     --device=/dev/video0:/dev/video0 \
     -e DISPLAY=$DISPLAY \
-    -t -d johudo/storage-automatisation-robot:v1.0.1
+    -t -d johudo/storage-automatisation-robot:v1.0.2
 ```
 
 To start application:
