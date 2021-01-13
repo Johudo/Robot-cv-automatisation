@@ -4,24 +4,14 @@ import numpy as np
 
 class ObjectDetection(object):
 
-    def __init__(self, yolo_weights, yolo_config, webcam, confidence_threshold):
+    def __init__(self, yolo_weights, yolo_config, confidence_threshold):
         self.yolo_weights = yolo_weights
         self.yolo_config = yolo_config
-        self.webcam = webcam
         self.confidence_threshold = confidence_threshold
 
         self.net = cv2.dnn.readNet(yolo_weights, yolo_config)
         layer_names = self.net.getLayerNames()
         self.output_layers = [layer_names[i[0] - 1] for i in self.net.getUnconnectedOutLayers()]
-
-
-
-    def load_input_image(self, image_path):
-        test_img = cv2.imread(image_path)
-        h, w, _ = test_img.shape
-
-        return test_img, h, w
-
 
 
     def perform_detection(self, image, class_number):
@@ -51,12 +41,10 @@ class ObjectDetection(object):
 
 
 
-    def draw_boxes(self, img, boxes, box_color):
-        for i in range( len(boxes) ):
-            x, y, w, h = boxes[i]
-            cv2.rectangle(img, (x, y), (x + w, y + h), box_color, 2)
+    def draw_boxes(self, img, box, box_color):
+        x, y, w, h = box
+        cv2.rectangle(img, (x, y), (x + w, y + h), box_color, 2)
                 
-        return img
 
 
 
@@ -75,30 +63,17 @@ class ObjectDetection(object):
 
 
 
-    def dectection_from_webcam(self, class_number, obj_cm_height):
-
-        video = cv2.VideoCapture(self.webcam)
-
+    def dectect_object(self, image, class_number, obj_cm_height):
         distance_to_object = 0
         angle_to_object = 0
+        ret = False
 
-        while True:
-            image = video.read()[1]
-            
-            boxes = self.perform_detection(image, class_number)
-            image = self.draw_boxes(image, boxes, (255, 255, 0))
+        boxes = self.perform_detection(image, class_number)
+    
+        if (len(boxes) > 0):
+            self.draw_boxes(image, boxes[0], (255, 255, 0))
+            ret = True
+            distance_to_object = self.get_distance_to_object(boxes[0], obj_cm_height)
+            angle_to_object = self.get_angle_to_object(boxes[0], distance_to_object, image.shape[1])
 
-            cv2.imshow("Detection", image)
-
-            key = cv2.waitKey(1)
-
-            if len(boxes) > 0: 
-                distance_to_object = self.get_distance_to_object(boxes[0], obj_cm_height)
-                angle_to_object = self.get_angle_to_object(boxes[0], distance_to_object, image.shape[1])
-
-                break
-            
-
-        video.release()
-
-        return (distance_to_object, angle_to_object)
+        return (image, ret, distance_to_object, angle_to_object)
