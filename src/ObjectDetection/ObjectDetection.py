@@ -97,12 +97,6 @@ class ObjectDetection(object):
                 angle_to_object = self.get_angle_to_object(boxes[0], distance_to_object, image.shape[1])
 
                 break
-
-            # if key == 32: 
-            #     break
-            # elif key == 113:
-            #     print("SCREENSHOT")
-            #     cv2.imwrite('screenshot.png', image)
             
 
         video.release()
