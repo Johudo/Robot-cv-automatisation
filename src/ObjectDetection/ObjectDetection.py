@@ -77,7 +77,7 @@ class ObjectDetection(object):
 
     def dectection_from_webcam(self, class_number, obj_cm_height):
 
-        video = cv2.VideoCapture(self.webcam, cv2.CAP_DSHOW)
+        video = cv2.VideoCapture(self.webcam)
 
         distance_to_object = 0
         angle_to_object = 0

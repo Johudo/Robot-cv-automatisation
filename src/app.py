@@ -92,13 +92,13 @@ if __name__ == "__main__":
             robot_is_working = False
             return 'Robot was stoped'
         else:
-            # DEVELOPMENT
-            robot_is_working = None
-            return 'Robot\'s proccess was killed'
+            # # DEVELOPMENT
+            # robot_is_working = None
+            # return 'Robot\'s proccess was killed'
 
-            # # PRODUCTION
-            # return 'Robot was stopped before'
+            # PRODUCTION
+            return 'Robot was stopped before'
 
 
 
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
